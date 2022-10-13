@@ -12,6 +12,16 @@
             <x-adminlte-card theme="dark" theme-mode="outline" style="height: 100%">
                 <button data-toggle="modal" data-target="#modalCustom" class="bg-teal button-modal" style="height: 50px;">
                     <i class="fa fa-solid fa-plus fa-2x" style="justify-items: center; align-items: center"></i> </button>
+                <div class="card">
+                    <div class="card-body">
+                        This is some text within a card body.
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                      This is some text within a card body.
+                    </div>
+                  </div>
             </x-adminlte-card>
         </div>
         <div class="col-md-4">
