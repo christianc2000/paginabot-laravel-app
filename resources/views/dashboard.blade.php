@@ -13,7 +13,7 @@
             <div class="list-group-item" style="background: #256D85; color:#fff">Prospecto Entrante</div>
             <!--**********************************ITEM 1*************************************************-->
             @foreach ($users as $user)
-                <div class="list-group-item item" data-id="{{$user->id}}">
+                <div class="list-group-item item" data-id="{{ $user->id }}">
                     <div class="row g-0">
                         <div class="col-md-12" style="display: inline-block;margin: 0px">
                             <p class="text-muted" style="float: left;margin: 0px"><label for="">Facebook
@@ -89,7 +89,7 @@
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="{{ URL::asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <style>
         /*Notificacion*/
@@ -158,16 +158,18 @@
 
     <script>
         console.log('Hi!');
+
         new Sortable(Prentrante, {
             group: 'shared', // set both lists to same group
             draggable: ".item",
             animation: 150,
             store: {
-                set: function(sortable){
+                set: function(sortable) {
                     const sorts = sortable.toArray();
-                    axios.post("{{route('api.prospecto.store')}}",{
-                          sorts: sorts
-                    }).catch(function(error){
+                    console.log(sorts);
+                    axios.post("{{ route('api.prospecto.store') }}", {
+                        sorts: sorts
+                    }).catch(function(error) {
                         console.log('tiene error');
                     });
                 }
@@ -191,7 +193,6 @@
             draggable: ".item",
             animation: 150
         });
-
     </script>
     <script>
         $(document).ready(function() {
@@ -206,7 +207,7 @@
                 }
                 false;
             });
-            
+
 
         });
     </script>
