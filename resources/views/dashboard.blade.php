@@ -13,7 +13,7 @@
             <div class="list-group-item" style="background: #256D85; color:#fff">Prospecto Entrante</div>
             <!--**********************************ITEM 1*************************************************-->
             @foreach ($users as $user)
-                <div class="list-group-item item" id="{{$user->id}}">
+                <div class="list-group-item item" data-id="{{$user->id}}">
                     <div class="row g-0">
                         <div class="col-md-12" style="display: inline-block;margin: 0px">
                             <p class="text-muted" style="float: left;margin: 0px"><label for="">Facebook
@@ -61,7 +61,9 @@
             <div class="list-group-item item">
                 Item1
             </div>
-            <div class="list-group-item item">Item2</div>
+            <div class="list-group-item item">
+                Item2
+            </div>
         </div>
         <!--**************************ESTADO 3****************************************-->
         <div id="Clactivo" class="list-group col">
@@ -160,6 +162,16 @@
             group: 'shared', // set both lists to same group
             draggable: ".item",
             animation: 150,
+            store: {
+                set: function(sortable){
+                    const sorts = sortable.toArray();
+                    axios.post("{{route('api.prospecto.store')}}",{
+                          sorts: sorts
+                    }).catch(function(error){
+                        console.log('tiene error');
+                    });
+                }
+            }
         });
 
         new Sortable(Prinicial, {
@@ -179,6 +191,7 @@
             draggable: ".item",
             animation: 150
         });
+
     </script>
     <script>
         $(document).ready(function() {

@@ -22,6 +22,8 @@ class UserSeeder extends Seeder
                 'email' => 'christian@gmail.com',
                 'celular'=>'73762233',
                 'password' => bcrypt('12345678'),
+                'estado'=>1,
+                'posicion'=>1
             ],
             [
                 'facebookid'=>'32332833',
@@ -30,6 +32,8 @@ class UserSeeder extends Seeder
                 'email' => 'luisa@gmail.com',
                 'celular'=>'65356221',
                 'password' => bcrypt('12345678'),
+                'estado'=>1,
+                'posicion'=>2
             ]
         ];
         foreach ($users as $user) {

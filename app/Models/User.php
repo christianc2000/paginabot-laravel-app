@@ -23,6 +23,8 @@ class User extends Authenticatable
         'name',
         'email',
         'celular',
+        'estado',
+        'posicion',
         'password',
     ];
 
@@ -46,5 +48,8 @@ class User extends Authenticatable
     ];
     public function visitas(){
         return $this->hasMany(Visita::class);
+    }
+    public function cliente(){
+        return $this->hasOne(Cliente::class);
     }
 }
