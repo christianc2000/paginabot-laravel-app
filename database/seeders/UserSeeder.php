@@ -14,30 +14,10 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $users = [
-            [
-                'facebookid'=>'32332833',
-                'foto'=>'fotos/perfil3.png',
-                'name' => 'Christian',
-                'email' => 'christian@gmail.com',
-                'celular'=>'73762233',
-                'password' => bcrypt('12345678'),
-                'estado'=>1,
-                'posicion'=>1
-            ],
-            [
-                'facebookid'=>'32332833',
-                'foto'=>'fotos/perfil1.png',
-                'name' => 'Luisa',
-                'email' => 'luisa@gmail.com',
-                'celular'=>'65356221',
-                'password' => bcrypt('12345678'),
-                'estado'=>1,
-                'posicion'=>2
-            ]
-        ];
-        foreach ($users as $user) {
-            User::create($user);
-        }
+        User::create([
+            'name' => 'Christian',
+            'email' => 'christian@gmail.com',
+            'password' => bcrypt('12345678')
+        ]);
     }
 }

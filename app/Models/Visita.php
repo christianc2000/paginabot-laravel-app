@@ -10,8 +10,8 @@ class Visita extends Model
     use HasFactory;
     protected $fillable=['fecha','user_id'];
 
-    public function user(){
-        return $this->belongsTo(User::class);
+    public function prospecto(){
+        return $this->belongsTo(Prospecto::class);
     }
 
 }

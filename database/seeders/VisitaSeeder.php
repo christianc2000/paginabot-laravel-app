@@ -16,11 +16,35 @@ class VisitaSeeder extends Seeder
     {
         Visita::create([
             'fecha' => '2021/03/21',
-            'user_id'=>1
+            'prospecto_id'=>1
         ]);
         Visita::create([
             'fecha' => '2021/04/20',
-            'user_id'=>2
+            'prospecto_id'=>2
+        ]);
+        Visita::create([
+            'fecha' => '2021/03/21',
+            'prospecto_id'=>3
+        ]);
+        Visita::create([
+            'fecha' => '2021/04/20',
+            'prospecto_id'=>4
+        ]);
+        Visita::create([
+            'fecha' => '2021/03/21',
+            'prospecto_id'=>5
+        ]);
+        Visita::create([
+            'fecha' => '2021/04/20',
+            'prospecto_id'=>6
+        ]);
+        Visita::create([
+            'fecha' => '2021/03/21',
+            'prospecto_id'=>7
+        ]);
+        Visita::create([
+            'fecha' => '2021/04/20',
+            'prospecto_id'=>8
         ]);
     }
 }

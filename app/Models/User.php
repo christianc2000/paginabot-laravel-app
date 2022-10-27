@@ -18,13 +18,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'facebookid',
-        'foto',
         'name',
         'email',
-        'celular',
-        'estado',
-        'posicion',
         'password',
     ];
 
@@ -46,10 +41,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function visitas(){
-        return $this->hasMany(Visita::class);
-    }
-    public function cliente(){
-        return $this->hasOne(Cliente::class);
+    public function contactos(){
+        return $this->hasMany(Contacto::class);
     }
 }

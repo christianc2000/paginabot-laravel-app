@@ -22,3 +22,4 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/dashboard', [UserController::class,'index'])->name('home');
+Route::post('/comunicion',[UserController::class,'comunicacion'])->name('comunicacion.store');
