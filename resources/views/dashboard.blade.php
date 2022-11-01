@@ -7,25 +7,73 @@
 @stop
 
 @section('content')
-    <!--modal-->
-    <x-adminlte-modal id="modalCustom" title="COMUNICACIÓN" size="lg" theme="teal" icon="fa fa-solid fa-comments" v-centered
+
+    <!--modal pedidos -->
+    <x-adminlte-modal id="modalMensajes" title="MENSAJES" size="lg" theme="dark" icon="fa fa-solid fa-store" v-centered
         static-backdrop scrollable>
+        <div id='contenidoMensaje'>
+
+        </div>
+    </x-adminlte-modal>
+    <!--modal pedidos -->
+    <x-adminlte-modal id="modalPedidos" title="PEDIDOS" size="lg" theme="dark" icon="fa fa-solid fa-store" v-centered
+        static-backdrop scrollable>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">FOTO</th>
+                    <th scope="col">NOMBRE</th>
+                    <th scope="col">CANTIDAD</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row"><img src="{{ asset('fotos/PEDIDO1.png') }}" alt=""
+                            style="width: 50px; height: auto;"></th>
+                    <td>Silla de plástico</td>
+                    <td>24</td>
+                </tr>
+                <tr>
+                    <th scope="row"><img src="{{ asset('fotos/PEDIDO2.png') }}" alt=""
+                            style="width: 50px; height: auto;"></th>
+                    <td>Mesa</td>
+                    <td>6</td>
+                </tr>
+                <tr>
+                    <th scope="row"><img src="{{ asset('fotos/PEDIDO3.png') }}" alt=""
+                            style="width: 50px; height: auto;"></th>
+                    <td>Mesa de metal</td>
+                    <td>5</td>
+                </tr>
+            </tbody>
+        </table>
+
+        {{--            <button type="submit" class="btn btn-success">Guardar</button> --}}
+
+    </x-adminlte-modal>
+    <!--modal-->
+    <x-adminlte-modal id="modalCustom" title="COMUNICACIÓN" size="lg" theme="teal" icon="fa fa-solid fa-comments"
+        v-centered static-backdrop scrollable>
 
         <form action="{{ route('comunicacion.store') }}" method="post">
             @csrf
             <div class="row">
                 <div class="col-md-7 col-lg-7 col-sm-7 border-right">
                     <div class="form-group row">
-                        <x-adminlte-input name="contactar" label="Contactar" placeholder="contactar" disable-feedback
-                            id="contactar" rounded />
+
+                        <x-adminlte-input name="contactar" label="contactar" placeholder="contactar" disable-feedback
+                            id="contactar" onmousedown="return false;" onkeypress="return false;" />
+                        <input name="idcontactar" placeholder="idcontactar" type="text" id="idcontactar" hidden />
+                        <x-adminlte-input name="id" label="admin" placeholder="admin" disable-feedback id="admin"
+                            value="635a9f4d8b79539f79f13efe" />
                         <x-adminlte-select name="comunicacion_id" label="Medio" label-class="text-dark col-form-label">
                             <x-slot name="prependSlot">
                                 <div class="input-group-text bg-gray">
                                     <i class="fa fa-solid fa-envelope"></i>
                                 </div>
                             </x-slot>
-                            <option value="1">Celular</option>
-                            <option value="2">Email</i></option>
+                            <option value="celular">Celular</option>
+                            <option value="correo">Email</i></option>
                             <!--  <button class="btn btn-success" type="submit">OK</button>-->
                         </x-adminlte-select>
                         <x-adminlte-textarea name="mensaje" label="Mensaje" rows=5 igroup-size="sm" label-class="text-dark"
@@ -36,30 +84,31 @@
                                 </div>
                             </x-slot>
                             <x-slot name="appendSlot">
-                                <x-adminlte-button theme="secondary" icon="fas fa-paper-plane" label="Enviar"
+                                <x-adminlte-button theme="secondary" icon="fas fa-paper-plane" type="submit" label="Enviar"
                                     id="btnEnviar" />
-                            </x-slot>
-                        </x-adminlte-textarea>
+        </form>
+        </x-slot>
+        </x-adminlte-textarea>
 
-                    </div>
+        </div>
 
-                </div>
-                <div class="col-md-5 col-lg-5 col-sm-5">
-                    <div class="border"
-                        style="  display: inline-block;
+        </div>
+        <div class="col-md-5 col-lg-5 col-sm-5">
+            <div class="border"
+                style="  display: inline-block;
                 padding:5px;box-sizing: border-box;float:left;">
-                        <div style="width: auto; height: 300px">
-                            <img src="" alt="" id="imagenM"
-                                style="object-fit: cover;
+                <div style="width: auto; height: 300px">
+                    <img src="" alt="" id="imagenM"
+                        style="object-fit: cover;
                     width:100%;
                     height:100%;">
-                        </div>
-                    </div>
                 </div>
             </div>
+        </div>
+        </div>
 
-            <button type="submit" class="btn btn-success">Guardar</button>
-        </form>
+        {{--            <button type="submit" class="btn btn-success">Guardar</button> --}}
+
     </x-adminlte-modal>
     <div class="row">
         <!--**************************ESTADO 1****************************************-->
@@ -83,6 +132,21 @@
                                 </div>
                                 <p class="col-12 text-muted" style="font-size: 0.45rem; margin:5px"><label
                                         for="">Últ.vez </label> {{ $user['ultimoIngreso'][0]['entrada'] }}</p>
+                                <div class="mt-1" id={{ $user['prospecto']['facebookId'] . 'p' }}>
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#modalPedidos"
+                                        style="display:none;height: 35px;font-size: 7px; width: 90%; background: #8FE3CF; border: #8FE3CF">
+                                        <i class="fa fa-solid fa-store"></i>
+                                        Pedidos
+                                    </button>
+                                </div>
+                                <div class="row" id={{ $user['prospecto']['facebookId'] . 'dp' }}
+                                    style="display: none">
+                                    <label for="" class="col-12 texto-presentacion">F.Pedidos</label>
+                                    <p class="col-12 texto-presentacion" style="">3.2 ped/mes</p>
+                                    <label for="" class="col-12 texto-presentacion"
+                                        style="">P.Compras</label>
+                                    <p class="col-12 texto-presentacion" style="">245.5 Bs</p>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-7">
@@ -100,6 +164,22 @@
                                 </p>
                                 <label for="" class="col-md-12 texto-presentacion">Celular</label>
                                 <p class="col-md-12 texto-presentacion">77383273</p>
+                                <div class="row px-0" id={{ $user['prospecto']['facebookId'] . 'dp' }}
+                                    style="display:none">
+                                    <label for="" class="col-12 texto-presentacion">Ult. Pedido</label>
+                                    <p class="col-12 texto-presentacion" style="">2022/03/12</p>
+                                    <label for="" class="col-12 texto-presentacion"
+                                        style="">Cant.Pedido</label>
+                                    <p class="col-12 texto-presentacion" style="">32</p>
+                                </div>
+                                <div class="row px-0" id={{ $user['prospecto']['facebookId'] . 'up' }}
+                                    style="display: none">
+                                    <label for="" class="col-12 texto-presentacion">Ult. Pedido</label>
+                                    <p class="col-12 texto-presentacion" style="">2022/03/12</p>
+                                    <label for="" class="col-12 texto-presentacion"
+                                        style="">Notificaciones</label>
+                                    <p class="col-12 texto-presentacion" style="">5</p>
+                                </div>
                             </div>
                         </div>
                         <div class="col-sm-12" style="display:none" id={{ $user['prospecto']['facebookId'] . 'label' }}>
@@ -115,6 +195,13 @@
                                 style="font-size: 10px; width: 100%; background: #8FE3CF; border: #8FE3CF">
                                 <i class="fa fa-solid fa-comments"></i>
                                 Comunicación
+                            </button>
+                        </div>
+                        <div class="col-sm-12" id='41bn' style="display: none">
+                            <button data-toggle="modal" class="btn btn-primary"
+                                style="font-size: 10px; width: 100%; background: #8FE3CF; border: #8FE3CF">
+                                <i class="fa fa-solid fa-comments"></i>
+                                Detalle Notificación
                             </button>
                         </div>
                     </div>
@@ -143,8 +230,25 @@
                                             alt="...">
                                     </div>
                                 </div>
-                                <p class="col-12 text-muted" style="font-size: 0.45rem; margin:5px"><label
-                                        for="">Últ.vez</p>
+                                <p class="col-12 text-muted" id={{ 'ult' . $user['prospecto']['facebookId'] }}
+                                    style="display:none; font-size: 0.45rem; margin:5px"><label for="">Últ.vez</p>
+                                <div class="mt-1" id={{ $user['prospecto']['facebookId'] . 'p' }}
+                                    style="display: none">
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#modalPedidos"
+                                        style="height: 35px;font-size: 7px; width: 90%; background: #8FE3CF; border: #8FE3CF">
+                                        <i class="fa fa-solid fa-store"></i>
+                                        Pedidos
+                                    </button>
+                                </div>
+
+                                <div class="row" id={{ $user['prospecto']['facebookId'] . 'dfp' }}
+                                    style="display: none">
+                                    <label for="" class="col-12 texto-presentacion">F.Pedidos</label>
+                                    <p class="col-12 texto-presentacion" style="">3.2 ped/mes</p>
+                                    <label for="" class="col-12 texto-presentacion"
+                                        style="">P.Compras</label>
+                                    <p class="col-12 texto-presentacion" style="">245.5 Bs</p>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-7">
@@ -161,6 +265,23 @@
                                 </p>
                                 <label for="" class="col-md-12 texto-presentacion">Celular</label>
                                 <p class="col-md-12 texto-presentacion">6637263</p>
+                                <div class="row px-0" id={{ $user['prospecto']['facebookId'] . 'dp' }}
+                                    style="display:none">
+                                    <label for="" class="col-12 texto-presentacion">Ult. Pedido</label>
+                                    <p class="col-12 texto-presentacion" style="">2022/03/12</p>
+                                    <label for="" class="col-12 texto-presentacion"
+                                        style="">Cant.Pedido</label>
+                                    <p class="col-12 texto-presentacion" style="">32</p>
+                                </div>
+
+                                <div class="row px-0" id={{ $user['prospecto']['facebookId'] . 'up' }}
+                                    style="display: none">
+                                    <label for="" class="col-12 texto-presentacion">Ult. Pedido</label>
+                                    <p class="col-12 texto-presentacion" style="">2022/03/12</p>
+                                    <label for="" class="col-12 texto-presentacion"
+                                        style="">Notificaciones</label>
+                                    <p class="col-12 texto-presentacion" style="">5</p>
+                                </div>
                             </div>
                         </div>
                         <div class="col-sm-12" id={{ $user['prospecto']['facebookId'] . 'label' }}>
@@ -178,11 +299,19 @@
                                 Comunicación
                             </button>
                         </div>
-                        <div class="col-sm-12" style="display: none" id={{ $user['prospecto']['facebookId'] . 'p' }}>
-                            <button class="btn btn-primary button"
-                                style="font-size: 10px; width: 100%; background: #200d67; border: #200d67">
+                        <div class="col-sm-12" id={{ $user['prospecto']['facebookId'] . 'vb' }}>
+                            <button data-toggle="modal" data-target="#modalMensajes"
+                                class="btn btn-primary buttonMensaje" id="{{ json_encode($user['prospecto']) }}"
+                                style="font-size: 10px; width: 100%; background: #8FE3CF; border: #8FE3CF">
                                 <i class="fa fa-solid fa-comments"></i>
-                                Ver Pedidos
+                                Mensajes
+                            </button>
+                        </div>
+                        <div class="col-sm-12" id='41bn' style="display: none">
+                            <button data-toggle="modal" class="btn btn-primary"
+                                style="font-size: 10px; width: 100%; background: #8FE3CF; border: #8FE3CF">
+                                <i class="fa fa-solid fa-comments"></i>
+                                Detalle Notificación
                             </button>
                         </div>
                     </div>
@@ -195,134 +324,196 @@
             <div class="list-group-item" style="background: #256D85; color:#fff">
                 Cliente Activo
             </div>
-            {{-- @foreach ($e3 as $user)
-                <div class="list-group-item item" data-id="{{ $user->id }}">
+            <!--SIN FOR-->
+            @foreach ($e3 as $user)
+                <div class="list-group-item item" data-id={{ $user['cliente']['idPros']['facebookId'] }}>
                     <div class="row g-0">
-                        <div class="col-md-12" style="display: inline-block;margin: 0px">
-                            <p class="text-muted" style="float: left;margin: 0px"><label for="">Facebook
-                                    Id </label> {{ $user->facebookid }}</p>
+                        <div class="col-md-12" style="height: 25px;">
+                            <p class="text-muted" style="font-size: 0.7rem"><label for="">FB </label>
+                                {{ $user['cliente']['idPros']['facebookId'] }}</p>
                         </div>
                         <div class="col-md-5">
                             <div class="row">
                                 <div class="col-12">
-                                    <div id="{{ 'notify' . $user->id }}" data-count="{{ count($user->visitas) }}">
-                                        <img src="{{ asset($user->foto) }}" class="img-fluid rounded-start"
-                                            alt="...">
+                                    <div class="border"
+                                        style="  display: inline-block;padding: 5px;box-sizing: border-box;float:left; width: 90%; height: 110px;">
+                                        {{-- object-fit: cover;top: 50% --}}
+                                        <img src="{{ asset($user['cliente']['idPros']['imagen']) }}" alt="" id="imagenM"
+                                            style="width:100%; height:100%;">
+
                                     </div>
                                 </div>
-                                <p class="col-12 text-muted" style="font-size: 0.45rem; margin:5px"><label
-                                        for="">Últ.vez </label> {{ $user->visitas->last()->fecha }}</p>
+                                <p class="col-12 text-muted" id={{ 'ult' . $user['cliente']['idPros']['facebookId'] }}
+                                    style="font-size: 0.45rem; margin:5px; display:none"><label for="">Últ.vez
+                                    </label></p>
+                                <div class="mt-1" id={{ $user['cliente']['idPros']['facebookId'] . 'p' }}>
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#modalPedidos"
+                                        style="height: 35px;font-size: 7px; width: 90%; background: #8FE3CF; border: #8FE3CF">
+                                        <i class="fa fa-solid fa-store"></i>
+                                        Pedidos
+                                    </button>
+                                </div>
+
+                                <div class="row" id='31dfp' style="display: none">
+                                    <label for="" class="col-12 texto-presentacion">F.Pedidos</label>
+                                    <p class="col-12 texto-presentacion" style="">3.2 ped/mes</p>
+                                    <label for="" class="col-12 texto-presentacion"
+                                        style="">P.Compras</label>
+                                    <p class="col-12 texto-presentacion" style="">245.5 Bs</p>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-7">
                             <div class="row g-0">
                                 <label for="" class="col-md-12 texto-presentacion">Nombre</label>
-                                <p class="col-md-12 texto-presentacion">{{ $user->name }}</p>
+                                <p class="col-md-12 texto-presentacion">{{ $user['cliente']['idPros']['nombre'] }}</p>
                                 <label for="" class="col-md-12 texto-presentacion">Email</label>
                                 <p class="col-md-12 texto-presentacion" style="word-wrap: break-word;">
-                                    {{ $user->email }}
+                                    @if (isset($user['cliente']['idPros']['correo']))
+                                        {{ $user['cliente']['idPros']['correo'] }}
+                                    @else
+                                        none
+                                    @endif
                                 </p>
                                 <label for="" class="col-md-12 texto-presentacion">Celular</label>
-                                <p class="col-md-12 texto-presentacion">{{ $user->celular }}</p>
+                                <p class="col-md-12 texto-presentacion">
+                                    @if (isset($user['cliente']['celular']))
+                                        {{ $user['cliente']['celular'] }}
+                                    @else
+                                        none
+                                    @endif
+                                </p>
+                                <div class="row px-0" id='31dp'>
+                                    <label for="" class="col-12 texto-presentacion">Ult. Pedido</label>
+                                    <p class="col-12 texto-presentacion" style="">2022/03/12</p>
+                                    <label for="" class="col-12 texto-presentacion"
+                                        style="">Cant.Pedido</label>
+                                    <p class="col-12 texto-presentacion" style="">32</p>
+                                </div>
+                                <div class="row px-0" id='31up' style="display: none">
+                                    <label for="" class="col-12 texto-presentacion">Ult. Pedido</label>
+                                    <p class="col-12 texto-presentacion" style="">2022/03/12</p>
+                                    <label for="" class="col-12 texto-presentacion"
+                                        style="">Notificaciones</label>
+                                    <p class="col-12 texto-presentacion" style="">5</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-sm-12" style="display: none" id={{ $user->id . 'label' }}>
+                        <div class="col-sm-12" style="display: none" id='31label'>
                             <label for="" class="form-control labelito">
                                 <p class="pesito" style="font-size: 0.4rem">
-                                    @if (count($user->contactos) > 0)
-                                        {{ $user->contactos->last()->mensaje }}
-                                    @else
-                                        (Vacio)
-                                    @endif
+                                    Vende productos de sillas
                                 </p>
                             </label>
                         </div>
-                        <div class="col-sm-12" style="display: none" id={{ $user->id . 'b' }}>
-                            <button data-toggle="modal" data-target="#modalCustom" class="btn btn-primary button"
-                                id="{{ $user }}"
+                        <div class="col-sm-12" style="display: none" id='31b'>
+                            <button data-toggle="modal" class="btn btn-primary"
                                 style="font-size: 10px; width: 100%; background: #8FE3CF; border: #8FE3CF">
                                 <i class="fa fa-solid fa-comments"></i>
                                 Comunicación
                             </button>
                         </div>
-                        <div class="col-sm-12" id={{ $user->id . 'p' }}>
-                            <button class="btn btn-primary button"
-                                style="font-size: 10px; width: 100%; background: #200d67; border: #200d67">
+
+                        <div class="col-sm-12" id='31bn' style="display: none">
+                            <button data-toggle="modal" class="btn btn-primary"
+                                style="font-size: 10px; width: 100%; background: #8FE3CF; border: #8FE3CF">
                                 <i class="fa fa-solid fa-comments"></i>
-                                Ver Pedidos
+                                Detalle Notificación
                             </button>
                         </div>
                     </div>
                 </div>
             @endforeach
---}}
         </div>
         <!--**************************ESTADO 4****************************************-->
         <div id="Clhabitual" class="list-group col">
             <div class="list-group-item" style="background: #256D85; color:#fff">
                 Cliente Habitual
             </div>
-            {{-- @foreach ($e4 as $user)
-                <div class="list-group-item item" data-id="{{ $user->id }}">
-                    <div class="row g-0">
-                        <div class="col-md-12" style="display: inline-block;margin: 0px">
-                            <p class="text-muted" style="float: left;margin: 0px"><label for="">Facebook
-                                    Id </label> {{ $user->facebookid }}</p>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div id="{{ 'notify' . $user->id }}" data-count="{{ count($user->visitas) }}">
-                                        <img src="{{ asset($user->foto) }}" class="img-fluid rounded-start"
-                                            alt="...">
-                                    </div>
+            <div class="list-group-item item" data-id="41">
+                <div class="row g-0">
+                    <div class="col-md-12" style="height: 25px;">
+                        <p class="text-muted" style="font-size: 0.7rem"><label for="">FB </label>
+                            3829238233</p>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="border"
+                                    style="  display: inline-block;padding: 5px;box-sizing: border-box;float:left; width: 90%; height: 110px;">
+                                    {{-- object-fit: cover;top: 50% --}}
+                                    <img src="{{ asset('fotos/perfil8.png') }}" alt="" id="imagenM"
+                                        style="width:100%; height:100%;">
+
                                 </div>
-                                <p class="col-12 text-muted" style="font-size: 0.45rem; margin:5px"><label
-                                        for="">Últ.vez </label> {{ $user->visitas->last()->fecha }}</p>
                             </div>
-                        </div>
-                        <div class="col-md-7">
-                            <div class="row g-0">
-                                <label for="" class="col-md-12 texto-presentacion">Nombre</label>
-                                <p class="col-md-12 texto-presentacion">{{ $user->name }}</p>
-                                <label for="" class="col-md-12 texto-presentacion">Email</label>
-                                <p class="col-md-12 texto-presentacion" style="word-wrap: break-word;">
-                                    {{ $user->email }}
-                                </p>
-                                <label for="" class="col-md-12 texto-presentacion">Celular</label>
-                                <p class="col-md-12 texto-presentacion">{{ $user->celular }}</p>
+                            <p class="col-12 text-muted" id="ult41"
+                                style="font-size: 0.45rem; margin:5px; display:none"><label for="">Últ.vez
+                                </label> 2022/02/12</p>
+                            <div class="mt-1" id='41p' style="display:none">
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#modalPedidos"
+                                    style="height: 35px;font-size: 7px; width: 90%; background: #8FE3CF; border: #8FE3CF">
+                                    <i class="fa fa-solid fa-store"></i>
+                                    Pedidos
+                                </button>
                             </div>
-                        </div>
-                        <div class="col-sm-12" style="display: none" id={{ $user->id . 'label' }}>
-                            <label for="" class="form-control labelito">
-                                <p class="pesito" style="font-size: 0.4rem">
-                                    @if (count($user->contactos) > 0)
-                                        {{ $user->contactos->last()->mensaje }}
-                                    @else
-                                        (Vacio)
-                                    @endif
-                                </p>
-                            </label>
-                        </div>
-                        <div class="col-sm-12" style="display: none" id={{ $user->id . 'b' }}>
-                            <button data-toggle="modal" data-target="#modalCustom" class="btn btn-primary button"
-                                id="{{ $user }}"
-                                style="font-size: 10px; width: 100%; background: #8FE3CF; border: #8FE3CF">
-                                <i class="fa fa-solid fa-comments"></i>
-                                Comunicación
-                            </button>
-                        </div>
-                        <div class="col-sm-12" style="display: none" id={{ $user->id . 'p' }}>
-                            <button class="btn btn-primary button"
-                                style="font-size: 10px; width: 100%; background: #200d67; border: #200d67">
-                                
-                                Ver Pedidos
-                            </button>
+                            <div class="row" id='41dfp'>
+                                <label for="" class="col-12 texto-presentacion">F.Pedidos</label>
+                                <p class="col-12 texto-presentacion" style="">3.2 ped/mes</p>
+                                <label for="" class="col-12 texto-presentacion" style="">P.Compras</label>
+                                <p class="col-12 texto-presentacion" style="">245.5 Bs</p>
+                            </div>
                         </div>
                     </div>
+                    <div class="col-md-7">
+                        <div class="row g-0">
+                            <label for="" class="col-md-12 texto-presentacion">Nombre</label>
+                            <p class="col-md-12 texto-presentacion">Juanito Perez</p>
+                            <label for="" class="col-md-12 texto-presentacion">Email</label>
+                            <p class="col-md-12 texto-presentacion" style="word-wrap: break-word;">
+                                juanito@gmail.com
+                            </p>
+                            <label for="" class="col-md-12 texto-presentacion">Celular</label>
+                            <p class="col-md-12 texto-presentacion">77328322</p>
+                            <div class="row px-0" id='41dp' style="display: none">
+                                <label for="" class="col-12 texto-presentacion">Ult. Pedido</label>
+                                <p class="col-12 texto-presentacion" style="">2022/03/12</p>
+                                <label for="" class="col-12 texto-presentacion"
+                                    style="">Cant.Pedido</label>
+                                <p class="col-12 texto-presentacion" style="">32</p>
+                            </div>
+                            <div class="row px-0" id='41up'>
+                                <label for="" class="col-12 texto-presentacion">Ult. Pedido</label>
+                                <p class="col-12 texto-presentacion" style="">2022/03/12</p>
+                                <label for="" class="col-12 texto-presentacion"
+                                    style="">Notificaciones</label>
+                                <p class="col-12 texto-presentacion" style="">5</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12" style="display: none" id='41label'>
+                        <label for="" class="form-control labelito">
+                            <p class="pesito" style="font-size: 0.4rem">
+                                Vende productos de sillas
+                            </p>
+                        </label>
+                    </div>
+                    <div class="col-sm-12" style="display: none" id='41b'>
+                        <button data-toggle="modal" class="btn btn-primary"
+                            style="font-size: 10px; width: 100%; background: #8FE3CF; border: #8FE3CF">
+                            <i class="fa fa-solid fa-comments"></i>
+                            Comunicación
+                        </button>
+                    </div>
+                    <div class="col-sm-12" id='41bn'>
+                        <button data-toggle="modal" class="btn btn-primary"
+                            style="font-size: 10px; width: 100%; background: #8FE3CF; border: #8FE3CF">
+                            <i class="fa fa-solid fa-comments"></i>
+                            Detalle Notificación
+                        </button>
+                    </div>
                 </div>
-            @endforeach
---}}
+            </div>
         </div>
     </div>
 @stop
@@ -440,8 +631,16 @@
                     pos = 1;
                     sorts.forEach(element => {
                         patern = $('#Prentrante');
+                        patern.find('#ult' + element).css('display', 'block');
+                        patern.find('#' + element + 'dp').css('display', 'none');
                         patern.find('#' + element + 'b').css('display', 'none');
+
+                        patern.find('#' + element + 'bn').css('display', 'none');
                         patern.find('#' + element + 'p').css('display', 'none');
+
+                        patern.find('#' + element + 'up').css('diplay', 'none');
+                        patern.find('#' + element + 'dp').css('display', 'none');
+                        patern.find('#' + element + 'dfp').css('display', 'none');
                         patern.find('#notify' + element).addClass('notify');
                         patern.find('#' + element + 'label').css('display', 'none');
                         const o = {
@@ -476,10 +675,15 @@
                     sorts.forEach(element => {
                         console.log('elemento: ' + element)
                         patern = $('#Prinicial');
+                        patern.find('#ult' + element).css('display', 'none');
                         patern.find('#' + element + 'b').css('display', 'block');
+
+                        patern.find('#' + element + 'bn').css('display', 'none');
                         patern.find('#' + element + 'p').css('display', 'none');
                         patern.find('#notify' + element).removeClass('notify');
-
+                        patern.find('#' + element + 'up').css('diplay', 'none');
+                        patern.find('#' + element + 'dp').css('display', 'none');
+                        patern.find('#' + element + 'dfp').css('display', 'none');
                         patern.find('#' + element + 'label').css('display', 'block');
                         const o = {
                             facebookId: element,
@@ -510,18 +714,25 @@
                     const sorts = sortable.toArray();
                     console.log('estado 3, sorts: ' + sorts);
                     sorts.forEach(element => {
+                        //console.log('elemento, estado 3: '+element);
+
                         patern = $('#Clactivo');
-                        patern.find('#' + element + 'b').css('display', 'none');
                         patern.find('#' + element + 'p').css('display', 'block');
+                        patern.find('#ult' + element).css('display', 'none');
+                        patern.find('#' + element + 'b').css('display', 'none');
+                        patern.find('#' + element + 'bn').css('display', 'none');
+                        patern.find('#' + element + 'dp').show();
+                        patern.find('#' + element + 'up').hide();
+                        patern.find('#' + element + 'dfp').hide();
                         patern.find('#notify' + element).removeClass('notify');
                         patern.find('#' + element + 'label').css('display', 'none');
                     });
-                    /*         axios.post("{{ route('api.prospecto.estadoTres') }}", {
-                                 'sorts': sorts,
-                             }).then(res => console.log(res.data)).catch(function(
-                                 error) {
-                                 alert(error);
-                             });*/
+                    /*axios.post("{{ route('api.prospecto.estadoTres') }}", {
+                        'sorts': sorts,
+                    }).then(res => console.log(res.data)).catch(function(
+                        error) {
+                        alert(error);
+                    });*/
                 }
             }
         });
@@ -536,8 +747,16 @@
                     console.log('estado 4, sorts: ' + sorts);
                     sorts.forEach(element => {
                         patern = $('#Clhabitual');
+                        patern.find('#ult' + element).css('display', 'none');
                         patern.find('#' + element + 'b').css('display', 'none');
+
+                        patern.find('#' + element + 'bn').css('display', 'block');
                         patern.find('#' + element + 'p').css('display', 'none');
+
+                        patern.find('#' + element + 'dp').hide();
+                        patern.find('#' + element + 'up').show();
+
+                        patern.find('#' + element + 'dfp').show();
                         patern.find('#notify' + element).removeClass('notify');
                         patern.find('#' + element + 'label').css('display', 'none');
                     });
@@ -553,34 +772,61 @@
     </script>
     <script>
         $(document).ready(function() {
-            //id = $('.prueba').attr('id');
-            //console.log('id: ' + id);
             $('.button').on('click', function() {
                 user = JSON.parse($(this).attr('id'));
-                //console.log(user['_id']);
+                console.log(user);
                 foto = user['imagen'];
                 $('#imagenM').attr('src', foto);
                 contactar = $('#contactar');
-                contactar.val(user['nombre']);
+                idcontactar = $('#idcontactar');
+                contactar.val(user['correo']);
+                idcontactar.val(user['_id']);
                 contactar.prop('rounded', true);
 
             });
-            $('#btnEnviar').on('click', function() {
-                alert('Enviar Modal');
-            })
-            /*   let pila = [];
-               $('.card-input-element').click(function() {
-                   idPadre = $(this).closest('label');
-                   contenedorHijo = idPadre.find('#' + idPadre.attr('id'));
-                   if (pila.length()==0){
-                       pila.push(contenedorHijo.attr('id'));
-                       contenedorHijo.css('display', 'block');
-                  
-                   }
-                   
-                   console.log('id padre: ' + idPadre.attr('id'));
-                   console.log('id hijo: ' + contenedorHijo.attr('id'));
-               })*/
         });
+        //id = $('.prueba').attr('id');
+        //console.log('id: ' + id);
+
+
+        $('.buttonMensaje').on('click', async function() {
+            $('#contenidoMensaje').empty();
+            user = JSON.parse($(this).attr('id'));
+            console.log('user:' + user['_id']);
+            let datos = await sendPostRequest(user['_id']);
+            console.log(datos);
+            for (let index = 0; index < datos['mensaje'].length; index++) {
+
+                elemento = '<div class="col-md-12">' +
+                    '<div class="card mb-3 p-3">' +
+                    '<h5 class="card-title px-3">' + 'Mensaje' + '</h5>' +
+                    '<p class="card-text px-3 py-2" style="height:10px">' + '<label>' + 'De: ' + '</label>' +
+                    datos['usuarios'][index]['nombre'] + '</p>' +
+                    '<p class="card-text px-3 py-2" style="height:10px">' + '<label>' + 'Mensaje: ' +
+                    '</label>' + datos['mensaje'][index]['mensaje'] + '</p>' +
+                    '<p class="card-text px-3 py-2" style="height:10px">' +
+                    '<small class="text-muted">' +
+                    datos['mensaje'][index]['fecha'] + ' ' + datos['mensaje'][index]['hora'] + '</small>' +
+                    '</p>' +
+                    '</div>' +
+                    '</div>';
+                // console.log('elemento: ' + elemento);
+                //console.log(msje[index]);
+                $('#contenidoMensaje').append(elemento);
+            }
+        });
+
+        const sendPostRequest = async (id) => {
+            try {
+                const resp = await axios.post('https://bottopicos.herokuapp.com/api/prospecto/contactar/mensaje', {
+                    'id': id
+                });
+                //console.log(resp.data);
+                return resp.data;
+            } catch (err) {
+                // Handle Error Here
+                console.error(err);
+            }
+        };
     </script>
 @stop
