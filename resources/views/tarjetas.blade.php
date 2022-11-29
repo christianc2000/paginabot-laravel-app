@@ -538,6 +538,16 @@
             };
            
         });
+        const getRequest = async (id) => {
+                try {
+                    const resp = await axios.get('https://bottopicos.herokuapp.com/api/prospecto/contactar');
+                    console.log(resp.data);
+                    return resp.data;
+                } catch (err) {
+                    // Handle Error Here
+                    console.error(err);
+                }
+        };
         //setInterval(location.reload(),60000000);
         new Sortable(Prentrante, {
             group: 'shared', // set both lists to same group
@@ -579,7 +589,7 @@
             draggable: ".item",
             animation: 150,
             store: {
-                set: function(sortable) {
+                set: async function(sortable) {
                     const sorts = sortable.toArray();
                     console.log('estado 2, sorts: ' + sorts);
                     const prospecto = [];
@@ -607,7 +617,9 @@
                         error) {
                         alert(error);
                     });
-                    location.reload();
+                     const e2=await getRequest();
+                     console.log("estado 2 prospecto:"+e2);
+                  
                 }
             }
         });
