@@ -8,8 +8,7 @@
 
 @section('content')
     <a class="btn btn-primary" href="{{ route('user.create') }}">Crear</a>
-    
-
+ 
 @stop
 
 @section('css')

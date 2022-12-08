@@ -3,7 +3,7 @@
 use App\Http\Controllers\web\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\PromocionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,12 +19,12 @@ Route::get('/', function () {
     return view('welcome');
 })->name('inicial');
 
-Auth::routes();
+//Auth::routes();
 
 /***Usuario */
 
-Route::get('login',[UserController::class,'loginindex'])->name('user.login.index');
-Route::post('login',[UserController::class,'login'])->name('user.login');
+Route::get('/login',[UserController::class,'loginindex'])->name('user.login');
+Route::post('/login',[UserController::class,'login'])->name('user.login');
 
     
 Route::get('/dashboard', [UserController::class,'index'])->name('home');
@@ -41,3 +41,5 @@ Route::delete('usuario/{id}',[UserController::class,'destroy'])->name('user.dest
 Route::get('pedido/{id}',[UserController::class,'pedido'])->name('user.pedido');
 Route::get('dash',[UserController::class,'tarjeta'])->name('user.tarjeta');
 
+Route::resource('/promocion',PromocionController::class)->names('promocion');
+Route::post('promocionEliminar/{id}',[PromocionController::class,'eliminar'])->name('promocion.eliminar');

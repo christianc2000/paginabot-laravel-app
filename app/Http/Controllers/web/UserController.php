@@ -14,23 +14,28 @@ use Illuminate\Support\Facades\Http;
 
 class UserController extends Controller
 {
-    //  public int $id=1;
+      public $user;
 
     public function index()
     {
-        $prospectos = Http::get('https://bottopicos.herokuapp.com/api/prospecto');
+        /*$prospectos = Http::get('https://paginabotstopicos.onrender.com/api/prospecto');
+        $contactar = Http::get('https://paginabotstopicos.onrender.com/api/prospecto/contactar');
+        $activo = Http::get('https://paginabotstopicos.onrender.com/api/pedido');
+        $habitual = Http::get('https://paginabotstopicos.onrender.com/api/pedido/maspedido');
+*/
 
-        $contactar = Http::get('https://bottopicos.herokuapp.com/api/prospecto/contactar');
-
-        $activo = Http::get('https://bottopicos.herokuapp.com/api/pedido');
-        $habitual = Http::get('https://bottopicos.herokuapp.com/api/pedido/maspedido');
+        $prospectos = Http::get('https://topicos.onrender.com/api/prospecto');
+        //return $prospectos;
+        $contactar = Http::get('https://topicos.onrender.com/api/prospecto/contactar');
+        
+        $activo = Http::get('https://topicos.onrender.com/api/pedido');
+        $habitual = Http::get('https://topicos.onrender.com/api/pedido/maspedido');
 
         $resultado1 = json_decode($prospectos, true);
         $resultado2 = json_decode($contactar, true);
         $resultado3 = json_decode($activo, true);
         $resultado4 = json_decode($habitual, true);
-
-
+        //return $resultado1;
 
         $e1 = $resultado1['prospectoInicial'];
         $e2 = $resultado2['prospectoInicial'];
@@ -45,7 +50,7 @@ class UserController extends Controller
     public function comunicacion(Request $request)
     {
         //return $request;
-        $response = Http::post('https://bottopicos.herokuapp.com/api/prospecto/contactar', [
+        $response = Http::post('https://topicos.onrender.com/api/prospecto/contactar', [
             "contactar" => $request->contactar,
             "medio" => $request->comunicacion_id,
             "mensaje" => $request->mensaje,
@@ -57,7 +62,7 @@ class UserController extends Controller
     public function comunicacion2(Request $request)
     {
         //return $request;
-        $response = Http::post('https://bottopicos.herokuapp.com/api/prospecto/contactar', [
+        $response = Http::post('https://topicos.onrender.com/api/prospecto/contactar', [
             "contactar" => $request->contactar,
             "medio" => $request->comunicacion_id,
             "mensaje" => $request->mensaje,
@@ -74,7 +79,7 @@ class UserController extends Controller
     public function login(Request $request)
     {
 
-        $response = Http::post('https://bottopicos.herokuapp.com/api/usuario/login', [
+        $response = Http::post('https://topicos.onrender.com/api/usuario/login', [
             "correo" => $request->email,
             "password" => $request->password,
         ]);
@@ -84,9 +89,11 @@ class UserController extends Controller
             //return $response;
             /* Config::set('id', $response['_id']);
            return Config::get('id');*/
+           $this->user=$response['_id'];
             return redirect()->route('home');
         } else {
-            return redirect()->route('inicial');
+            session()->flash('error-login', '¡Error Usuario o contraseña incorrectos');
+            return redirect()->route('user.login');
         }
     }
     public function inde()
@@ -99,7 +106,7 @@ class UserController extends Controller
     }
     public function pedido($id)
     {
-        $url = 'https://bottopicos.herokuapp.com/api/pedido/cliente/' . $id;
+        $url = 'https://topicos.onrender.com/api/pedido/cliente/' . $id;
         $pedido = Http::get($url);
         $pedidos = json_decode($pedido, true);
         $pedidos = $pedidos['pedidoDetalleCarrito'];
@@ -108,12 +115,12 @@ class UserController extends Controller
     }
     public function tarjeta()
     {
-        $prospectos = Http::get('https://bottopicos.herokuapp.com/api/prospecto');
+        $prospectos = Http::get('https://topicos.onrender.com/api/prospecto');
+        
+        $contactar = Http::get('https://topicos.onrender.com/api/prospecto/contactar');
 
-        $contactar = Http::get('https://bottopicos.herokuapp.com/api/prospecto/contactar');
-
-        $activo = Http::get('https://bottopicos.herokuapp.com/api/pedido');
-        $habitual = Http::get('https://bottopicos.herokuapp.com/api/pedido/maspedido');
+        $activo = Http::get('https://topicos.onrender.com/api/pedido');
+        $habitual = Http::get('https://topicos.onrender.com/api/pedido/maspedido');
 
         $resultado1 = json_decode($prospectos, true);
         $resultado2 = json_decode($contactar, true);
@@ -142,7 +149,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
 
-        $response = Http::post('https://bottopicos.herokuapp.com/api/usuario', [
+        $response = Http::post('https://topicos.onrender.com/api/usuario', [
             "nombre" => $request->nombre,
             "correo" => $request->correo,
             "password" => $request->password,

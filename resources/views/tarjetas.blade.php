@@ -11,7 +11,7 @@
     <x-adminlte-modal id="modalCustom" title="COMUNICACIÓN" size="lg" theme="teal" icon="fa fa-solid fa-comments" v-centered
         static-backdrop scrollable>
 
-        <form action="{{ route('comunicacion.store') }}" method="post">
+        <form action="{{ route('comunicacion2.store') }}" method="post">
             @csrf
             <div class="row">
                 <div class="col-md-7 col-lg-7 col-sm-7 border-right">
@@ -97,6 +97,13 @@
                                     {{ $user['prospecto']['correo'] }}
                                 @endif
                             </h6>
+                            <ul class="preentrante float-left">
+                                <li>
+                                    <p><strong>Último Ingreso: </strong>
+                                        {{ $user['ultimoIngreso'][0]['entrada'] }}
+                                    </p>
+                                </li>
+                            </ul>
                             <ul class="contacts" id={{ $user['prospecto']['facebookId'] . 'estado2' }}
                                 style="display: none">
                                 <li>
@@ -477,6 +484,20 @@
     <script>
         console.log('Hi!');
     </script>
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('9cb69b0c52d9af0d8ff3', {
+            cluster: 'us2'
+        });
+
+        var channel = pusher.subscribe('actualizar-channel');
+        channel.bind('actualizar-event', function(data) {
+            alert(JSON.stringify(data));
+        });
+    </script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('.button').on('click', function() {
@@ -490,8 +511,10 @@
                 idcontactar.val(user['_id']);
                 contactar.prop('rounded', true);
             });
+
             $('.buttonMensaje').on('click', async function() {
                 $('#contenidoMensaje').empty();
+                console.log($(this).attr('id'));
                 user = JSON.parse($(this).attr('id'));
                 console.log('user:' + user['_id']);
                 let datos = await sendPostRequest(user['_id']);
@@ -522,11 +545,11 @@
                     $('#contenidoMensaje').append(elemento);
                 }
             });
-            
+
             const sendPostRequest = async (id) => {
                 try {
                     const resp = await axios.post(
-                        'https://bottopicos.herokuapp.com/api/prospecto/contactar/mensaje', {
+                        'https://topicos.onrender.com/api/prospecto/contactar/mensaje', {
                             'id': id
                         });
                     //console.log(resp.data);
@@ -536,23 +559,27 @@
                     console.error(err);
                 }
             };
-           
+
         });
         const getRequest = async (id) => {
-                try {
-                    const resp = await axios.get('https://bottopicos.herokuapp.com/api/prospecto/contactar');
-                    console.log(resp.data);
-                    return resp.data;
-                } catch (err) {
-                    // Handle Error Here
-                    console.error(err);
-                }
+            try {
+                const resp = await axios.get('https://topicos.onrender.com/api/prospecto/contactar');
+                console.log(resp.data);
+                return resp.data;
+            } catch (err) {
+                // Handle Error Here
+                console.error(err);
+            }
         };
         //setInterval(location.reload(),60000000);
         new Sortable(Prentrante, {
-            group: 'shared', // set both lists to same group
+            group: {
+                name: 'shared',
+                put: false // Do not allow items to be put into this list
+            },
             draggable: ".item",
             animation: 150,
+            sort: false, // To disable sorting: set sort to false
             store: {
                 set: function(sortable) {
                     const sorts = sortable.toArray();
@@ -572,12 +599,12 @@
                         console.log(prospecto);
                         pos = pos + 1;
                     });
-                    axios.post("https://bottopicos.herokuapp.com/api/prospecto/estado", {
-                        prospecto: prospecto
-                    }).then(res => console.log(res.data)).catch(function(
-                        error) {
-                        alert(error);
-                    });
+                    /* axios.post("https://bottopicos.herokuapp.com/api/prospecto/estado", {
+                         prospecto: prospecto
+                     }).then(res => console.log(res.data)).catch(function(
+                         error) {
+                         alert(error);
+                     });*/
 
                 }
             }
@@ -611,15 +638,19 @@
                         pos = pos + 1;
                     });
 
-                    axios.post("https://bottopicos.herokuapp.com/api/prospecto/estado", {
+                    axios.post("https://topicos.onrender.com/api/prospecto/estado", {
                         prospecto: prospecto,
                     }).then(res => console.log(res.data)).catch(function(
                         error) {
                         alert(error);
                     });
-                     const e2=await getRequest();
-                     console.log("estado 2 prospecto:"+e2);
-                  
+                    /*     axios.get("https://topicos.onrender.com/api/prospecto/contactar").then(res => console.log(res.data)).catch(function(
+                             error) {
+                             alert(error);
+                         });*/
+                    const e2 = await getRequest();
+                    console.log("estado 2 prospecto:" + e2);
+
                 }
             }
         });

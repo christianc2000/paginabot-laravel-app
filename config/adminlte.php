@@ -321,6 +321,11 @@ return [
             'url'         => '/usuario-index',
             'icon'        => 'fa fa-user',
         ],
+        [
+            'text'        => 'Promoción',
+            'url'         => '/promocion',
+            'icon'        => 'fa fa-duotone fa-tags',
+        ],
       
     ],
 
