@@ -24,30 +24,31 @@ class UserController extends Controller
         $habitual = Http::get('https://paginabotstopicos.onrender.com/api/pedido/maspedido');
 */
 
-        $prospectos = Http::get('https://topicos.onrender.com/api/prospecto');
+       /* $prospectos = Http::get('https://topicos.onrender.com/api/prospecto');
         $contactar = Http::get('https://topicos.onrender.com/api/prospecto/contactar');
         $activo = Http::get('https://topicos.onrender.com/api/pedido');
         $habitual = Http::get('https://topicos.onrender.com/api/pedido/maspedido');
-
-       /* $prospectos = Http::get('https://topicos.onrender.com/api/prospecto');
+*/
+        $prospectos = Http::get('http://localhost:3000/api/prospecto');
         $contactar = Http::get('http://localhost:3000/api/prospecto/contactar');
         $activo = Http::get('http://localhost:3000/api/pedido');
         $habitual = Http::get('http://localhost:3000/api/pedido/maspedido');
         
-      */  $notificaciones = Http::get('http://localhost:3000/api/notificaciones/unread-notification')->json();
+        $notificaciones = Http::get('http://localhost:3000/api/notificaciones/unread-notification')->json();
 
         $notificaciones = $notificaciones['unreadNotification'];
         $resultado1 = json_decode($prospectos, true);
         $resultado2 = json_decode($contactar, true);
         $resultado3 = json_decode($activo, true);
         $resultado4 = json_decode($habitual, true);
-      //  return $resultado4;
+      // return $resultado4;
 
         $e1 = $resultado1['prospectoInicial'];
         $e2 = $resultado2['prospectoInicial'];
         $e3 = $resultado3['pedidos'];
         $e4 = $resultado4['pedidos'];
         //return $e3;
+       //return $notificaciones;
         return view('tarjetas', compact('e1', 'e2', 'e3', 'e4', 'notificaciones'));
         // return view('prueba', compact('prI'));
         //return view('dashboard', compact('prI'));
@@ -85,7 +86,7 @@ class UserController extends Controller
     public function login(Request $request)
     {
 
-        $response = Http::post('https://topicos.onrender.com/api/usuario/login', [
+        $response = Http::post('http://localhost:3000/api/usuario/login', [
             "correo" => $request->email,
             "password" => $request->password,
         ]);
@@ -112,7 +113,7 @@ class UserController extends Controller
     }
     public function pedido($id)
     {
-        $url = 'https://topicos.onrender.com/api/pedido/cliente/' . $id;
+        $url = 'http://localhost:3000/api/pedido/cliente/' . $id;
         $pedido = Http::get($url);
         $pedidos = json_decode($pedido, true);
         $pedidos = $pedidos['pedidoDetalleCarrito'];
@@ -176,8 +177,9 @@ class UserController extends Controller
 
     //user notificaciones
     public function notificaciones($id){
-        $url = 'https://topicos.onrender.com/api/pedido/notificaciones/' . $id;
-        $notificaciones = Http::get($url)->json();
+       // $url = 'https://topicos.onrender.com/api/pedido/notificaciones/' . $id;
+       $url = 'http://localhost:3000/api/pedido/notificaciones/' . $id;
+       $notificaciones = Http::get($url)->json();
         $notificaciones = $notificaciones['promociones'];
        //  return $notificaciones;
         return view('notificaciones', compact('notificaciones'));

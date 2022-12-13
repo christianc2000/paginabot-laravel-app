@@ -30,7 +30,8 @@
                         <th>NOMBRE</th>
                         <th>DESCRIPCION</th>
                         <th>DESCUENTO</th>
-                        <th>Estado</th>
+                        <th>SILLAS</th>
+                        <th>MESAS</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -44,15 +45,10 @@
                             <td>{{ $promo['promocion']['nombre'] }}</td>
                             <td>{{ $promo['promocion']['descripcion'] }}</td>
                             <td>{{ $promo['promocion']['descuento'] }}</td>
+                            <td>{{$promo['promocion']['cantidadSillas']}}</td>
+                            <td>{{$promo['promocion']['cantidadMesas']}}</td>
                             <td>
-                                @if ($promo['promocion']['estado'])
-                                    <strong class="bg-success text-white">Activo</strong>
-                                @else
-                                    <strong class="bg-danger text-white">Inactivo</strong>
-                                @endif
-                            </td>
-                            <td>
-                                <a href="" class="btn btn-primary">Editar</a>
+                            
                                 <form action="{{ route('promocion.eliminar', $promo['_id']) }}" method="POST">
                                     @csrf
                                     <button type="submit" class="btn btn-danger">Eliminar</a>

@@ -14,11 +14,11 @@ class PromocionController extends Controller
      */
     public function index()
     {
-        $promociones = Http::get('https://topicos.onrender.com/api/promociones')->json();
-        //$promociones = Http::get('http://localhost:3000/api/promociones')->json();
+       // $promociones = Http::get('https://topicos.onrender.com/api/promociones')->json();
+        $promociones = Http::get('http://localhost:3000/api/promociones')->json();
         
         $promociones = $promociones['detalle'];
-       // return $promociones;
+        return $promociones;
         return view('promocion.index', compact('promociones'));
     }
 
@@ -29,8 +29,8 @@ class PromocionController extends Controller
      */
     public function create()
     {
+        $productos = Http::get('http://localhost:3000/api/promociones/productos')->json();
         //$productos = Http::get('https://topicos.onrender.com/api/promociones/productos')->json();
-        $productos = Http::get('https://topicos.onrender.com/api/promociones/productos')->json();
         $productos = $productos['productos'];
         //return $productos;
         return view('promocion.create', compact('productos'));
@@ -45,8 +45,8 @@ class PromocionController extends Controller
     public function store(Request $request)
     {
 
-        // $promocion = http::post('https://topicos.onrender.com/api/promociones/crear', [
-        $promocion = http::post('https://topicos.onrender.com/api/promociones/crear', [
+         $promocion = http::post('http://localhost:3000/api/promociones/crear', [
+     //   $promocion = http::post('https://topicos.onrender.com/api/promociones/crear', [
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
             'cantidadSillas' => $request->cantidadSillas,
@@ -102,8 +102,8 @@ class PromocionController extends Controller
      */
     public function eliminar($id)
     {
-         $url='https://topicos.onrender.com/api/promociones/eliminar/'.$id;
-      //  $url = 'http://localhost:3000/api/promociones/eliminar/' . $id;
+        // $url='https://topicos.onrender.com/api/promociones/eliminar/'.$id;
+        $url = 'http://localhost:3000/api/promociones/eliminar/' . $id;
         $promocion = http::post($url);
         session()->flash('eliminar-promocion', '¡Se eliminó correctamente la promoción!');
 

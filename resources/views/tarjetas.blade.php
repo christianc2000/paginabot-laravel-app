@@ -9,7 +9,7 @@
                 data-mdb-toggle="dropdown" aria-expanded="false">
                 <i class="fas fa-bell"></i>
                 <span class="badge rounded-pill badge-notification bg-danger"
-                    id="count-notification">{{ count($notificaciones) }}</span>
+                    id="count-notification"></span>
             </a>
             <ul class="dropdown-menu" id="lista-notification" aria-labelledby="navbarDropdownMenuLink">
                 @php
@@ -317,7 +317,7 @@
                                 </li>
                                 <li>
                                     <p><strong>Cantidad Notificaciones: </strong>
-                                       ({{$user['vecesNotificado']}})
+                                        ({{ $user['vecesNotificado'] }})
                                     </p>
 
                                 </li>
@@ -329,7 +329,8 @@
                                     <i class="fa fa-solid fa-store"></i>
                                     Pedidos
                                 </a>
-                                <a class="badge badge-pill badge-success" href={{route('user.notificaciones',$user['cliente']['idPros']['facebookId'])}}>
+                                <a class="badge badge-pill badge-success"
+                                    href={{ route('user.notificaciones', $user['cliente']['idPros']['facebookId']) }}>
                                     <i class="fa fa-solid fa-comments"></i>
                                     Notificación
                                 </a>
@@ -351,8 +352,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.css"
-    integrity="sha512-DIW4FkYTOxjCqRt7oS9BFO+nVOwDL4bzukDyDtMO7crjUZhwpyrWBFroq+IqRe6VnJkTpRAS6nhDvf0w+wHmxg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+        integrity="sha512-DIW4FkYTOxjCqRt7oS9BFO+nVOwDL4bzukDyDtMO7crjUZhwpyrWBFroq+IqRe6VnJkTpRAS6nhDvf0w+wHmxg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style type="text/css">
         .notify::before {
@@ -524,8 +525,8 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"
-    integrity="sha512-Zq9o+E00xhhR/7vJ49mxFNJ0KQw1E1TMWkPTxrWcnpfEFDEXgUiwJHIKit93EW/XxE31HSI5GEOW06G6BF1AtA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        integrity="sha512-Zq9o+E00xhhR/7vJ49mxFNJ0KQw1E1TMWkPTxrWcnpfEFDEXgUiwJHIKit93EW/XxE31HSI5GEOW06G6BF1AtA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <script>
@@ -575,8 +576,13 @@
                     i++;
                 })
             }
-            i = parseInt($('#count-notification').text());
-            $('#count-notification').text(i + 1);
+        
+            if ($('#count-notification').text() == "") {
+                $('#count-notification').text(1);
+            }else{
+                i = parseInt($('#count-notification').text());
+                $('#count-notification').text(i + 1);
+            }
             iziToast.show({
                 title: '¡Nueva Notificación!',
                 message: data['titulo'],
