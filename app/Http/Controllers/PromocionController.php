@@ -18,7 +18,7 @@ class PromocionController extends Controller
         $promociones = Http::get('http://localhost:3000/api/promociones')->json();
         
         $promociones = $promociones['detalle'];
-        return $promociones;
+        //return $promociones;
         return view('promocion.index', compact('promociones'));
     }
 
