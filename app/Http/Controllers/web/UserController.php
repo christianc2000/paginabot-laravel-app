@@ -33,6 +33,7 @@ class UserController extends Controller
         $contactar = Http::get('http://localhost:3000/api/prospecto/contactar');
         $activo = Http::get('http://localhost:3000/api/pedido');
         $habitual = Http::get('http://localhost:3000/api/pedido/maspedido');
+        
       */  $notificaciones = Http::get('http://localhost:3000/api/notificaciones/unread-notification')->json();
 
         $notificaciones = $notificaciones['unreadNotification'];
@@ -40,7 +41,7 @@ class UserController extends Controller
         $resultado2 = json_decode($contactar, true);
         $resultado3 = json_decode($activo, true);
         $resultado4 = json_decode($habitual, true);
-        //return $resultado1;
+      //  return $resultado4;
 
         $e1 = $resultado1['prospectoInicial'];
         $e2 = $resultado2['prospectoInicial'];
@@ -171,5 +172,14 @@ class UserController extends Controller
     }
     public function destroy($id)
     {
+    }
+
+    //user notificaciones
+    public function notificaciones($id){
+        $url = 'https://topicos.onrender.com/api/pedido/notificaciones/' . $id;
+        $notificaciones = Http::get($url)->json();
+        $notificaciones = $notificaciones['promociones'];
+       //  return $notificaciones;
+        return view('notificaciones', compact('notificaciones'));
     }
 }

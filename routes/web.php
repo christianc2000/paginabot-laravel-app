@@ -40,6 +40,8 @@ Route::put('usuario/{id}',[UserController::class,'update'])->name('user.update')
 Route::delete('usuario/{id}',[UserController::class,'destroy'])->name('user.destroy');
 Route::get('pedido/{id}',[UserController::class,'pedido'])->name('user.pedido');
 Route::get('dash',[UserController::class,'tarjeta'])->name('user.tarjeta');
+//Ruta Notificaciones
+Route::get('notificaciones/{id}',[UserController::class,'notificaciones'])->name('user.notificaciones');
 
 Route::resource('/promocion',PromocionController::class)->names('promocion');
 Route::post('promocionEliminar/{id}',[PromocionController::class,'eliminar'])->name('promocion.eliminar');

@@ -315,6 +315,12 @@
                                         {{ round($user['promedioCompra'], 2) }} Bs
                                     </p>
                                 </li>
+                                <li>
+                                    <p><strong>Cantidad Notificaciones: </strong>
+                                       ({{$user['vecesNotificado']}})
+                                    </p>
+
+                                </li>
 
                             </ul>
                             <div class="clearfix">
@@ -323,7 +329,7 @@
                                     <i class="fa fa-solid fa-store"></i>
                                     Pedidos
                                 </a>
-                                <a class="badge badge-pill badge-success" href="#">
+                                <a class="badge badge-pill badge-success" href={{route('user.notificaciones',$user['cliente']['idPros']['facebookId'])}}>
                                     <i class="fa fa-solid fa-comments"></i>
                                     Notificación
                                 </a>
