@@ -24,16 +24,16 @@ class UserController extends Controller
         $habitual = Http::get('https://paginabotstopicos.onrender.com/api/pedido/maspedido');
 */
 
-        /*$prospectos = Http::get('https://topicos.onrender.com/api/prospecto');
+        $prospectos = Http::get('https://topicos.onrender.com/api/prospecto');
         $contactar = Http::get('https://topicos.onrender.com/api/prospecto/contactar');
         $activo = Http::get('https://topicos.onrender.com/api/pedido');
         $habitual = Http::get('https://topicos.onrender.com/api/pedido/maspedido');
-*/
-        $prospectos = Http::get('http://localhost:3000/api/prospecto');
+
+       /* $prospectos = Http::get('https://topicos.onrender.com/api/prospecto');
         $contactar = Http::get('http://localhost:3000/api/prospecto/contactar');
         $activo = Http::get('http://localhost:3000/api/pedido');
         $habitual = Http::get('http://localhost:3000/api/pedido/maspedido');
-        $notificaciones = Http::get('http://localhost:3000/api/notificaciones/unread-notification')->json();
+      */  $notificaciones = Http::get('http://localhost:3000/api/notificaciones/unread-notification')->json();
 
         $notificaciones = $notificaciones['unreadNotification'];
         $resultado1 = json_decode($prospectos, true);
@@ -55,7 +55,7 @@ class UserController extends Controller
     public function comunicacion(Request $request)
     {
         //return $request;
-        $response = Http::post('http://localhost:3000/api/prospecto/contactar', [
+        $response = Http::post('https://topicos.onrender.com/api/prospecto/contactar', [
             "contactar" => $request->contactar,
             "medio" => $request->comunicacion_id,
             "mensaje" => $request->mensaje,
@@ -67,7 +67,7 @@ class UserController extends Controller
     public function comunicacion2(Request $request)
     {
         //return $request;
-        $response = Http::post('http://localhost:3000/api/prospecto/contactar', [
+        $response = Http::post('https://topicos.onrender.com/api/prospecto/contactar', [
             "contactar" => $request->contactar,
             "medio" => $request->comunicacion_id,
             "mensaje" => $request->mensaje,
@@ -84,7 +84,7 @@ class UserController extends Controller
     public function login(Request $request)
     {
 
-        $response = Http::post('http://localhost:3000/api/usuario/login', [
+        $response = Http::post('https://topicos.onrender.com/api/usuario/login', [
             "correo" => $request->email,
             "password" => $request->password,
         ]);
@@ -111,7 +111,7 @@ class UserController extends Controller
     }
     public function pedido($id)
     {
-        $url = 'http://localhost:3000/api/pedido/cliente/' . $id;
+        $url = 'https://topicos.onrender.com/api/pedido/cliente/' . $id;
         $pedido = Http::get($url);
         $pedidos = json_decode($pedido, true);
         $pedidos = $pedidos['pedidoDetalleCarrito'];
@@ -120,12 +120,12 @@ class UserController extends Controller
     }
     public function tarjeta()
     {
-        $prospectos = Http::get('http://localhost:3000/api/prospecto');
+        $prospectos = Http::get('https://topicos.onrender.com/api/prospecto');
 
-        $contactar = Http::get('http://localhost:3000/api/prospecto/contactar');
+        $contactar = Http::get('https://topicos.onrender.com/api/prospecto/contactar');
 
-        $activo = Http::get('http://localhost:3000/api/pedido');
-        $habitual = Http::get('http://localhost:3000/api/pedido/maspedido');
+        $activo = Http::get('https://topicos.onrender.com/api/pedido');
+        $habitual = Http::get('https://topicos.onrender.com/api/pedido/maspedido');
 
         $resultado1 = json_decode($prospectos, true);
         $resultado2 = json_decode($contactar, true);
@@ -153,7 +153,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
 
-        $response = Http::post('http://localhost:3000/api/usuario', [
+        $response = Http::post('https://topicos.onrender.com/api/usuario', [
             "nombre" => $request->nombre,
             "correo" => $request->correo,
             "password" => $request->password,
