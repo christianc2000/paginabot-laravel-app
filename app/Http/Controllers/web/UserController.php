@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Http;
 
 class UserController extends Controller
 {
-      public $user;
+    public $user;
 
     public function index()
     {
@@ -33,8 +33,9 @@ class UserController extends Controller
         $contactar = Http::get('http://localhost:3000/api/prospecto/contactar');
         $activo = Http::get('http://localhost:3000/api/pedido');
         $habitual = Http::get('http://localhost:3000/api/pedido/maspedido');
+        $notificaciones = Http::get('http://localhost:3000/api/notificaciones/unread-notification')->json();
 
-
+        $notificaciones = $notificaciones['unreadNotification'];
         $resultado1 = json_decode($prospectos, true);
         $resultado2 = json_decode($contactar, true);
         $resultado3 = json_decode($activo, true);
@@ -45,8 +46,8 @@ class UserController extends Controller
         $e2 = $resultado2['prospectoInicial'];
         $e3 = $resultado3['pedidos'];
         $e4 = $resultado4['pedidos'];
-       //return $e3;
-        return view('tarjetas', compact('e1', 'e2', 'e3', 'e4'));
+        //return $e3;
+        return view('tarjetas', compact('e1', 'e2', 'e3', 'e4', 'notificaciones'));
         // return view('prueba', compact('prI'));
         //return view('dashboard', compact('prI'));
     }
@@ -93,7 +94,7 @@ class UserController extends Controller
             //return $response;
             /* Config::set('id', $response['_id']);
            return Config::get('id');*/
-           $this->user=$response['_id'];
+            $this->user = $response['_id'];
             return redirect()->route('home');
         } else {
             session()->flash('error-login', '¡Error Usuario o contraseña incorrectos');
@@ -114,13 +115,13 @@ class UserController extends Controller
         $pedido = Http::get($url);
         $pedidos = json_decode($pedido, true);
         $pedidos = $pedidos['pedidoDetalleCarrito'];
-       // return $pedidos;
+        // return $pedidos;
         return view('pedido', compact('pedidos'));
     }
     public function tarjeta()
     {
         $prospectos = Http::get('http://localhost:3000/api/prospecto');
-        
+
         $contactar = Http::get('http://localhost:3000/api/prospecto/contactar');
 
         $activo = Http::get('http://localhost:3000/api/pedido');
@@ -145,10 +146,9 @@ class UserController extends Controller
         //$e4 = Prospecto::where('estado', 4)->get();
         //return $e4[0];
         // return view('dashboard', compact('e1', 'e2', 'e3', 'e4'));
-     //   return $e4[0]['fechaUltima'][0];
+        //   return $e4[0]['fechaUltima'][0];
 
         return view('dashboard', compact('e1', 'e2', 'e3', 'e4'));
-      
     }
     public function store(Request $request)
     {
@@ -162,6 +162,7 @@ class UserController extends Controller
         ]);
         return $response;
     }
+
     public function edit($id)
     {
     }

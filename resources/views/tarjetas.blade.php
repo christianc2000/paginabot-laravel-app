@@ -3,13 +3,43 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Estados</h1>
+    <div class="float-right">
+        <div class="dropdown">
+            <a class="me-3 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink" role="button"
+                data-mdb-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-bell"></i>
+                <span class="badge rounded-pill badge-notification bg-danger"
+                    id="count-notification">{{ count($notificaciones) }}</span>
+            </a>
+            <ul class="dropdown-menu" id="lista-notification" aria-labelledby="navbarDropdownMenuLink">
+                @php
+                    $i = 0;
+                @endphp
+                @foreach ($notificaciones as $notificacion)
+                    @if ($i < 3)
+                        <li>
+                            <a class="dropdown-item notification" href="{{ route('home') }}"><strong
+                                    class="title">{{ $notificacion['titulo'] }}</strong></a>
+                        </li>
+                    @endif
+                    @php
+                        $i = $i + 1;
+                    @endphp
+                @endforeach
+                @if (count($notificaciones) > 3)
+                    <a class="dropdown-item border-top vermas" href="#">
+                        Ver más Notificaciones...
+                    </a>
+                @endif
+            </ul>
+        </div>
+    </div>
 @stop
 
 @section('content')
     <!--modal-->
-    <x-adminlte-modal id="modalCustom" title="COMUNICACIÓN" size="lg" theme="teal" icon="fa fa-solid fa-comments" v-centered
-        static-backdrop scrollable>
+    <x-adminlte-modal id="modalCustom" title="COMUNICACIÓN" size="lg" theme="teal" icon="fa fa-solid fa-comments"
+        v-centered static-backdrop scrollable>
 
         <form action="{{ route('comunicacion2.store') }}" method="post">
             @csrf
@@ -148,10 +178,11 @@
                     PROSPECTO INICIAL
                 </div>
                 @foreach ($e2 as $user)
-                    <figure class="user-card green list-group-item item" data-id="{{ $user['prospecto']['facebookId'] }}">
+                    <figure class="user-card green list-group-item item"
+                        data-id="{{ $user['prospecto']['facebookId'] }}">
                         <figcaption>
-                            <img src="{{ asset($user['prospecto']['imagen']) }}" alt="{{ $user['prospecto']['nombre'] }}"
-                                class="profile">
+                            <img src="{{ asset($user['prospecto']['imagen']) }}"
+                                alt="{{ $user['prospecto']['nombre'] }}" class="profile">
                             <h5>{{ $user['prospecto']['nombre'] }}</h5>
                             <h6>FB {{ $user['prospecto']['facebookId'] }}</h6>
                             @if (isset($user['prospecto']['celular']))
@@ -310,9 +341,12 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ URL::asset('css/app.css') }}">
-
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.css"
+    integrity="sha512-DIW4FkYTOxjCqRt7oS9BFO+nVOwDL4bzukDyDtMO7crjUZhwpyrWBFroq+IqRe6VnJkTpRAS6nhDvf0w+wHmxg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style type="text/css">
         .notify::before {
@@ -478,7 +512,14 @@
 @section('js')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"
+        integrity="sha512-Zq9o+E00xhhR/7vJ49mxFNJ0KQw1E1TMWkPTxrWcnpfEFDEXgUiwJHIKit93EW/XxE31HSI5GEOW06G6BF1AtA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"
+    integrity="sha512-Zq9o+E00xhhR/7vJ49mxFNJ0KQw1E1TMWkPTxrWcnpfEFDEXgUiwJHIKit93EW/XxE31HSI5GEOW06G6BF1AtA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <script>
@@ -495,7 +536,50 @@
 
         var channel = pusher.subscribe('actualizar-channel');
         channel.bind('actualizar-event', function(data) {
-            alert(JSON.stringify(data));
+            //     alert(JSON.stringify(data));
+
+            if ($('.notification').length < 3) {
+                $('#lista-notification').append('<li>' +
+                    '<a class="dropdown-item notification" href="{{ route('home') }}">' +
+                    '<strong class="title">' + data['titulo'] + '</strong>' + '</a>' +
+                    '</li>');
+                console.log('cantidad de notificaciones: ', $('.notification').length);
+            } else {
+                let notificaciones = [];
+                let i = 0;
+                console.log('tiene 3 notificaciones');
+                $('.notification').each(function() {
+                    if (i < 2) {
+                        notificaciones.push($(this).find('.title').text());
+                        console.log('i: ', i);
+                    }
+                    i++;
+                })
+                console.log('cantidad de notificaciones: ' + notificaciones.length);
+                i = 0;
+                $('.notification').each(function() {
+                    console.log('entra a mover notificaciones')
+                    if (i == 0) {
+                        $(this).find('.title').text(data['titulo']);
+                        console.log($(this).find('.title'));
+                    } else {
+                        $(this).find('.title').text(notificaciones[i - 1]);
+                        console.log($(this).find('.title'));
+                    }
+                    i++;
+                })
+            }
+            i = parseInt($('#count-notification').text());
+            $('#count-notification').text(i + 1);
+            iziToast.show({
+                title: '¡Nueva Notificación!',
+                message: data['titulo'],
+                backgroundColor: 'red',
+                theme: 'dark', // dark
+                color: 'red', // blue, red, green, yellow
+                timeout: 10000,
+                overlayClose: false,
+            });
         });
     </script>
     <script type="text/javascript">
