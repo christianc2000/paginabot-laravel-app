@@ -30,8 +30,6 @@ Route::post('/login',[UserController::class,'login'])->name('user.login');
 Route::get('/dashboard', [UserController::class,'index'])->name('home');
 Route::post('/comunicion',[UserController::class,'comunicacion'])->name('comunicacion.store');
 Route::post('/comunicion2',[UserController::class,'comunicacion2'])->name('comunicacion2.store');
-
-
 Route::get('usuario-index',[UserController::class,'inde'])->name('user.index');
 Route::get('usuario-create',[UserController::class,'create'])->name('user.create');
 Route::post('usuario',[UserController::class,'store'])->name('user.store');

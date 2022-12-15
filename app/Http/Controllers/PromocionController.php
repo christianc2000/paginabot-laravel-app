@@ -20,8 +20,7 @@ class PromocionController extends Controller
         $promociones = Http::get('http://localhost:3000/api/promociones')->json();
 
         $promociones = $promociones['detalle'];
-
-        //return $promociones;
+    //return $promociones;
         return view('promocion.index', compact('promociones'));
     }
 
@@ -56,8 +55,8 @@ class PromocionController extends Controller
             //  return Storage::download($path);
             $result = $request->foto->storeOnCloudinary();
             //return $result->getPath();
-            //$promocion = http::post('http://localhost:3000/api/promociones/crear', [
-             $promocion = http::post('https://topicos.onrender.com/api/promociones/crear', [
+            $promocion = http::post('http://localhost:3000/api/promociones/crear', [
+           //  $promocion = http::post('https://topicos.onrender.com/api/promociones/crear', [
                 'nombre' => $request->nombre,
                 'descripcion' => $request->descripcion,
                 'cantidadSillas' => $request->cantidadSillas,
