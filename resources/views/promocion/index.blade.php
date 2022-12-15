@@ -9,15 +9,15 @@
         </div>
     @endif
     @if (session('crear-promocion'))
-    <div class="bg-success text-white rounded p-lg-3">
-        {{ session('crear-promocion') }}
-    </div>
-@endif
+        <div class="bg-success text-white rounded p-lg-3">
+            {{ session('crear-promocion') }}
+        </div>
+    @endif
 @stop
 
 @section('content')
 
-   
+
     <div class="card">
         <div class="card-header">
             <a class="btn btn-primary" href="{{ route('promocion.create') }}">Crear Promocion</a>
@@ -45,10 +45,15 @@
                             <td>{{ $promo['promocion']['nombre'] }}</td>
                             <td>{{ $promo['promocion']['descripcion'] }}</td>
                             <td>{{ $promo['promocion']['descuento'] }}</td>
-                            <td>{{$promo['promocion']['cantidadSillas']}}</td>
-                            <td>{{$promo['promocion']['cantidadMesas']}}</td>
+                            <td>{{ $promo['promocion']['cantidadSillas'] }}</td>
                             <td>
-                            
+                                @if (isset($promo['promocion']['cantidadMesas']) > 0)
+                                    {{ $promo['promocion']['cantidadMesas'] }}
+                                @endif
+                            </td>
+
+                            <td>
+
                                 <form action="{{ route('promocion.eliminar', $promo['_id']) }}" method="POST">
                                     @csrf
                                     <button type="submit" class="btn btn-danger">Eliminar</a>

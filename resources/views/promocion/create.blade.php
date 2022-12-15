@@ -8,7 +8,7 @@
 
 @section('content')
     <div id="promocion" class="list-group col">
-        <form action="{{ route('promocion.store') }}" method="post">
+        <form action="{{ route('promocion.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row  form-group">
                 <x-adminlte-input name="nombre" label="nombre" placeholder="nombre" disable-feedback id="nombre"
@@ -21,9 +21,9 @@
                     type="numeric" />
                 <x-adminlte-input name="cantidadMesas" label="mesas" placeholder="mesas" disable-feedback id="mesas"
                     type="numeric" />
-                <x-adminlte-select name="producto" label="Producto" label-class="text-lightblue" igroup-size="lg">
+                <x-adminlte-select name="producto" label="Producto" label-class="text-dark" igroup-size="lg">
                     <x-slot name="prependSlot">
-                        <div class="input-group-text bg-gradient-info">
+                        <div class="input-group-text">
                             <i class="fa fa-solid fa-store"></i>
                         </div>
                     </x-slot>
@@ -31,7 +31,7 @@
                         <option value={{ $producto['_id'] }}><strong>{{ $producto['nombre'] }}</strong>
                             <p>
                                 @if (isset($producto['forma']))
-                                    {{$producto['forma']}}
+                                    {{ $producto['forma'] }}
                                 @endif
                             </p>
                         </option>
@@ -39,6 +39,15 @@
 
                     <!--  <button class="btn btn-success" type="submit">OK</button>-->
                 </x-adminlte-select>
+                <!--INPUT FOTO-->
+                <label for="">Imagen</label>
+                <input type="file" id="imagen" name="foto" class="form-control mx-3" style="width: 910px"
+                    accept="image/*" required>
+                <br>
+                <br>
+                <img id="imagenPrevisualizacion" style="max-height: 500px; ">
+                <!--******-->
+
             </div>
 
             <button class="btn btn-success" type="submit">Guardar</button>
@@ -61,20 +70,25 @@
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 
     <script>
-        $(document).ready(function() {
-            $('#chofertarjeta').DataTable({
-                language: {
-                    lengthMenu: 'Mostrar _MENU_ registros por página',
-                    zeroRecords: 'No se encontró nada - lo siento',
-                    info: 'Mostrando la página _PAGE_ de _PAGES_',
-                    infoEmpty: 'No hay registros disponibles',
-                    infoFiltered: '(filtrado de _MAX_ registros totales)',
-                    search: "Buscar",
-                },
-                scrollY: '280px',
-                scrollCollapse: true,
+        const $seleccionArchivos = document.querySelector("#imagen"),
+            $imagenPrevisualizacion = document.querySelector("#imagenPrevisualizacion");
+        $seleccionArchivos.addEventListener("change", () => {
+            // Los archivos seleccionados, pueden ser muchos o uno
+            const archivos = $seleccionArchivos.files;
+            // Si no hay archivos salimos de la función y quitamos la imagen
+            if (!archivos || !archivos.length) {
+                $imagenPrevisualizacion.src = "";
+                return;
+            }
+            // Ahora tomamos el primer archivo, el cual vamos a previsualizar
+            const primerArchivo = archivos[0];
+            // Lo convertimos a un objeto de tipo objectURL
+            const objectURL = URL.createObjectURL(primerArchivo);
+            // Y a la fuente de la imagen le ponemos el objectURL
+            $imagenPrevisualizacion.src = objectURL;
 
-            });
+            $('#imagenPrevisualizacion').css('width', '350px');
+            $('#imagenPrevisualizacion').css('border-radius', '20px');
         });
     </script>
 @stop

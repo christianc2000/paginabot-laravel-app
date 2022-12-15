@@ -181,7 +181,7 @@ class UserController extends Controller
        $url = 'http://localhost:3000/api/pedido/notificaciones/' . $id;
        $notificaciones = Http::get($url)->json();
         $notificaciones = $notificaciones['promociones'];
-       //  return $notificaciones;
+         return $notificaciones;
         return view('notificaciones', compact('notificaciones'));
     }
 }

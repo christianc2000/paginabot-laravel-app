@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Storage;
 
 class PromocionController extends Controller
 {
@@ -14,10 +16,11 @@ class PromocionController extends Controller
      */
     public function index()
     {
-       // $promociones = Http::get('https://topicos.onrender.com/api/promociones')->json();
+        // $promociones = Http::get('https://topicos.onrender.com/api/promociones')->json();
         $promociones = Http::get('http://localhost:3000/api/promociones')->json();
-        
+
         $promociones = $promociones['detalle'];
+
         //return $promociones;
         return view('promocion.index', compact('promociones'));
     }
@@ -44,19 +47,29 @@ class PromocionController extends Controller
      */
     public function store(Request $request)
     {
-
-         $promocion = http::post('http://localhost:3000/api/promociones/crear', [
-     //   $promocion = http::post('https://topicos.onrender.com/api/promociones/crear', [
-            'nombre' => $request->nombre,
-            'descripcion' => $request->descripcion,
-            'cantidadSillas' => $request->cantidadSillas,
-            'cantidadSillas' => $request->cantidadMesas,
-            'descuento' => $request->descuento,
-            'producto' => $request->producto,
-
-        ]);
-        session()->flash('crear-promocion', '¡Se creó correctamente la promoción!');
-
+        //  return $request->foto;
+        if ($request->hasFile('foto')) {
+            //$path=$request->foto->store('public');
+            //$image = fopen($request->file('foto')->getPathName(), 'r');
+            //return $image;
+            //return base64_decode(Storage::get($path));
+            //  return Storage::download($path);
+            $result = $request->foto->storeOnCloudinary();
+            //return $result->getPath();
+            //$promocion = http::post('http://localhost:3000/api/promociones/crear', [
+             $promocion = http::post('https://topicos.onrender.com/api/promociones/crear', [
+                'nombre' => $request->nombre,
+                'descripcion' => $request->descripcion,
+                'cantidadSillas' => $request->cantidadSillas,
+                'cantidadMesas' => $request->cantidadMesas,
+                'descuento' => $request->descuento,
+                'producto' => $request->producto,
+                'imagen' =>  $result->getPath()
+            ]);
+            session()->flash('crear-promocion', '¡Se creó correctamente la promoción!');
+        } else {
+            return "no es una foto";
+        }
         return redirect()->route('promocion.index');
     }
 
