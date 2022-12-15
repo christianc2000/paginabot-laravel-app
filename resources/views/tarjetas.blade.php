@@ -132,6 +132,7 @@
                                     <p><strong>Último Ingreso: </strong>
                                         {{ $user['ultimoIngreso'][0]['entrada'] }}
                                     </p>
+                                    
                                 </li>
                             </ul>
                             <ul class="contacts" id={{ $user['prospecto']['facebookId'] . 'estado2' }}
